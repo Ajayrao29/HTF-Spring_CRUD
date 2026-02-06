@@ -11,17 +11,19 @@ import java.util.List;
 public class ProductService {
     @Autowired
     private ProductRepo productRepo;
-    public ProductModel saveProduct(ProductModel product){
+
+    public ProductModel saveProduct(ProductModel product) {
         return productRepo.save(product);
     }
 
-    public List<ProductModel>getallProducts(){
+    public List<ProductModel> getallProducts() {
         return productRepo.findAll();
     }
 
     public ProductModel getProductById(int id) {
         return productRepo.findById(id).orElse(null);
     }
+
     public ProductModel updateProduct(int id, ProductModel productDetails) {
         ProductModel product = productRepo.findById(id).orElse(null);
         product.setName(productDetails.getName());
@@ -30,8 +32,28 @@ public class ProductService {
         product.setQuantity(productDetails.getQuantity());
         return productRepo.save(product);
     }
-}
 
+    public ProductModel updateProductQuantityById(Integer id, int quantity) {
+        ProductModel existingproduct = productRepo.findById(id).orElse(null);
+        if (existingproduct != null) {
+            existingproduct.setQuantity(quantity);
+            return productRepo.save(existingproduct);
+        }
+        return null;
+    }
+
+    public ProductModel deleteProduct(int id) {
+        ProductModel product = productRepo.findById(id).orElse(null);
+        if (product != null) {
+            productRepo.deleteById(id);
+        }
+        return product;
+    }
+    public List<ProductModel> saveProducts(List<ProductModel> products) {
+        return productRepo.saveAll(products);
+    }
+
+}
 
 
 

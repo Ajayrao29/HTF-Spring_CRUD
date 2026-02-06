@@ -19,6 +19,12 @@ public class ProductController {
         return ProductService.saveProduct(product);
     }
 
+    //Add Bulk Products at a time
+    @PostMapping("/bulk")
+    public List<ProductModel> addBulkProducts(@RequestBody List<ProductModel> products) {
+        return ProductService.saveProducts(products);
+    }
+
     @GetMapping
     public List<ProductModel> getallProducts() {
         return ProductService.getallProducts();
@@ -29,8 +35,21 @@ public class ProductController {
     public ProductModel getProductById(@PathVariable int id) {
         return ProductService.getProductById(id);
     }
-    @PutMapping
-    public ProductModel updateProduct(@RequestBody ProductModel product) {
-        return ProductService.createProduct(product);
+
+    @PutMapping("/{id}")
+    public ProductModel updateProduct(Integer id, @RequestBody ProductModel product) {
+        return ProductService.updateProduct(id, product);
     }
+    @PatchMapping("/{id}")
+    public ProductModel updateProductQuantityById(@PathVariable Integer id, @RequestBody int quantity){
+        return ProductService.updateProductQuantityById(id,quantity);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteProduct(@PathVariable int id) {
+        ProductService.getProductById(id);
+        return "Product" + " " +  id + " " + "removed!";
+    }
+
+
 }
