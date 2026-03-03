@@ -38,7 +38,7 @@ export class ProductService {
   }
 
   delete(id: number): Observable<string> {
-    return this.http.delete<string>(`${this.apiUrl}/${id}`).pipe(
+    return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' }).pipe(
       catchError(this.handleError)
     );
   }
