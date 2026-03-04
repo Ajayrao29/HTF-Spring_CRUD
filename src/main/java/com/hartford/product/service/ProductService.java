@@ -53,5 +53,12 @@ public class ProductService {
         return productRepo.saveAll(products);
     }
 
+    public List<ProductModel> getProductsSortedByPrice(String order) {
+        if ("desc".equalsIgnoreCase(order)) {
+            return productRepo.findAllByOrderByPriceDesc();
+        }
+        return productRepo.findAllByOrderByPriceAsc();
+    }
+
 }
 

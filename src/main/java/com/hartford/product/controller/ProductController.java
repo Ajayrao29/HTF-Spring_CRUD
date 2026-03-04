@@ -9,7 +9,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/pro")
-@CrossOrigin(origins = "http://localhost:4200")
 public class ProductController {
     @Autowired
     private ProductService ProductService;
@@ -26,7 +25,10 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<ProductModel> getallProducts() {
+    public List<ProductModel> getallProducts(@RequestParam(required = false) String sortByPrice) {
+        if (sortByPrice != null && !sortByPrice.isEmpty()) {
+            return ProductService.getProductsSortedByPrice(sortByPrice);
+        }
         return ProductService.getallProducts();
 
     }
@@ -50,6 +52,6 @@ public class ProductController {
         ProductService.deleteProduct(id);
         return "Product" + " " +  id + " " + "removed!";
     }
-
-
 }
+
+

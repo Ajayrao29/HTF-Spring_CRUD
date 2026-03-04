@@ -1,16 +1,31 @@
 <div class="container">
   <h2>Products List</h2>
-  <div *ngIf="products.length === 0" class="no-products">
-    No products available.
+
+  <div class="sort-controls">
+    <label for="sort-price">Sort by Price:</label>
+    <select id="sort-price" [(ngModel)]="sortOrder" (change)="onSortChange()">
+      <option value="">Default</option>
+      <option value="asc">Low to High</option>
+      <option value="desc">High to Low</option>
+    </select>
   </div>
-  <div *ngFor="let product of products" class="product-row">
-    <div class="product-info">
-      <span class="product-name">{{ product.name }}</span>
-      <span class="product-details">{{ product.description }} - ${{ product.price }} (Qty: {{ product.quantity }})</span>
-    </div>
-    <div class="product-actions">
-      <button class="edit-btn" (click)="onEdit(product.id)">Edit</button>
-      <button class="delete-btn" (click)="onDelete(product.id)">Delete</button>
-    </div>
-  </div>
+
+  @if (products$ | async; as products) {
+    @if (products.length === 0) {
+      <div class="no-products">No products available.</div>
+    }
+
+    @for (product of products; track product.id) {
+      <div class="product-row">
+        <div class="product-info">
+          <span class="product-name">{{ product.name }}</span>
+          <span class="product-details">{{ product.description }} - ${{ product.price }} (Qty: {{ product.quantity }})</span>
+        </div>
+        <div class="product-actions">
+          <button class="edit-btn" (click)="onEdit(product.id)">Edit</button>
+          <button class="delete-btn" (click)="onDelete(product.id)">Remove</button>
+        </div>
+      </div>
+    }
+  }
 </div>

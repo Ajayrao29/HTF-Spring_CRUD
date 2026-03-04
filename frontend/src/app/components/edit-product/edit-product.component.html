@@ -1,24 +1,36 @@
 <div class="container">
   <h2>Edit Product</h2>
-  <form (ngSubmit)="onSubmit()" #productForm="ngForm">
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <label>Name:</label>
-      <input type="text" [(ngModel)]="product.name" name="name" required>
+       <label for="edit-name">Name:</label>
+      <input id="edit-name" type="text" formControlName="name">
+      @if (productForm.controls.name.invalid && (productForm.controls.name.dirty || productForm.controls.name.touched)) {
+        <small class="text-danger">Name is required.</small>
+      }
     </div>
     <div class="form-group">
-      <label>Description:</label>
-      <input type="text" [(ngModel)]="product.description" name="description" required>
+      <label for="edit-description">Description:</label>
+      <input id="edit-description" type="text" formControlName="description">
+      @if (productForm.controls.description.invalid && (productForm.controls.description.dirty || productForm.controls.description.touched)) {
+        <small class="text-danger">Description is required.</small>
+      }
     </div>
     <div class="form-group">
-      <label>Price:</label>
-      <input type="number" [(ngModel)]="product.price" name="price" required>
+      <label for="edit-price">Price:</label>
+      <input id="edit-price" type="number" formControlName="price" min="0">
+      @if (productForm.controls.price.invalid && (productForm.controls.price.dirty || productForm.controls.price.touched)) {
+        <small class="text-danger">Price must be 0 or greater.</small>
+      }
     </div>
     <div class="form-group">
-      <label>Quantity:</label>
-      <input type="number" [(ngModel)]="product.quantity" name="quantity" required>
+      <label for="edit-quantity">Quantity:</label>
+      <input id="edit-quantity" type="number" formControlName="quantity" min="0">
+      @if (productForm.controls.quantity.invalid && (productForm.controls.quantity.dirty || productForm.controls.quantity.touched)) {
+        <small class="text-danger">Quantity must be 0 or greater.</small>
+      }
     </div>
     <div class="button-group">
-      <button type="submit" [disabled]="!productForm.form.valid">OK</button>
+      <button type="submit" [disabled]="productForm.invalid">OK</button>
       <button type="button" class="cancel-btn" (click)="onCancel()">Cancel</button>
     </div>
   </form>
